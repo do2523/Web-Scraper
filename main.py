@@ -8,9 +8,13 @@ res2 = requests.get('https://news.ycombinator.com/news?p=2')
 soup_obj = BeautifulSoup(res.text, 'html.parser')
 soup_obj2 = BeautifulSoup(res2.text, 'html.parser')
 # print(soup_obj.find(id='score_36329483'))
-links2 = soup_obj2.select('.titleline')
+links = soup_obj.select('.titleline > a')
+links2 = soup_obj2.select('.titleline > a')
+subtext = soup_obj.select(".subtext")
 subtext2 = soup_obj2.select(".subtext")
 
+mega_links = links + links2
+mega_subtext = subtext + subtext2
 
 def sort_stories_by_votes(hnlist):
     return sorted(hnlist, key= lambda k:k['votes'], reverse=True)
@@ -29,5 +33,6 @@ def create_custom_hn(links, subtext):
     return sort_stories_by_votes(hn)
 
 
-pprint.pprint(create_custom_hn(links,subtext))
+pprint.pprint(create_custom_hn(mega_links,mega_subtext))
 # print(create_custom_hn(links, votes))
+
